@@ -1,11 +1,11 @@
 const express = require('express');
-
+const path = require('path');
 const noteModel=require("./models/note.model")
 const cors = require('cors');
 const app=express();
 app.use(cors())
 app.use(express.json());
-
+app.use(express.static("./public"))
 //post  /api/notes
 //create new note and save data in mongo db
 
@@ -52,8 +52,11 @@ res.status(200).json({
     message:"note updated succesfully"
 })
 })
+console.log(__dirname,"..","/public/index.html");
 
-
+app.use("*name",(req,res)=>{
+    res.sendFile(path.join(__dirname,"..","/public/index.html"))
+})
 
 
 

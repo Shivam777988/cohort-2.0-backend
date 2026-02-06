@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
@@ -34,19 +34,88 @@ function App() {
   }
 
   ])
-  axios.get("http://localhost:3000/api/notes")
+  const [editingId, setEditingId] = useState(null);
+const [editValue, setEditValue] = useState("");
+
+  console.log("hello sir");
+
+  function fetchNotes(params) {
+    axios.get("http://localhost:3000/api/notes")
   .then((res)=>{
     setNotes(res.data.notes);
     
   })
+  }
+  useEffect(()=>{
+fetchNotes();
+  },[]) 
+  
+  
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const{title,description}=e.target.elements;
+    console.log(title,description);
+
+    axios.post("http://localhost:3000/api/notes",{
+      title:title.value,
+      description:description.value
+    })
+    .then(res=>{
+      console.log(res.data);
+      fetchNotes()
+    })
+  }
+
+  function handleDeleteNote(noteId) {
+    // console.log(noteId);
+    axios.delete("http://localhost:3000/api/notes/"+noteId)
+    .then(res=>{
+      console.log(res.data);
+      fetchNotes()
+    })
+    
+  }
+ function handleSaveUpdate(noteId) {
+  axios.patch(`http://localhost:3000/api/notes/${noteId}`, {
+    description: editValue
+  })
+  .then(res => {
+    console.log(res.data);
+    setEditingId(null);     // exit edit mode
+    setEditValue("");      // clear input
+    fetchNotes();          // refresh list
+  })
+  .catch(err => console.error(err));
+}
+
   return (
-    <><div className="notes">
+    <>
+    <form className="note-create-form" onSubmit={handleSubmit}>
+      <input name="title" type="text" placeholder="Enter title" />
+        <input name="description" type="text" placeholder="Enter description" />
+<button>create note</button>
+    </form>
+    <div className="notes">
       {notes.map(note=>(
      <div className="note">
 
 <h1>{note.title}</h1>
-<p>{note.description}</p>
+{editingId===note._id?(
+  <input value={editValue} onChange={(e)=>setEditValue(e.target.value)} />
+):<p>{note.description}</p>}
+    {editingId === note._id ? (
+      <button onClick={() => handleSaveUpdate(note._id)}>Save</button>
+    ) : (
+      <button onClick={() => {
+        setEditingId(note._id);
+        setEditValue(note.description);
+      }}>
+        Update
+      </button>
+    )}
 
+<button onClick={()=>{handleDeleteNote(note._id)}}>delete</button>
         </div>
       ))}
  
