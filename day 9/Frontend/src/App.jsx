@@ -40,7 +40,7 @@ const [editValue, setEditValue] = useState("");
   console.log("hello sir");
 
   function fetchNotes(params) {
-    axios.get("http://localhost:3000/api/notes")
+    axios.get("https://cohort-2-0-backend-ygz1.onrender.com/api/notes")
   .then((res)=>{
     setNotes(res.data.notes);
     
@@ -57,7 +57,7 @@ fetchNotes();
     const{title,description}=e.target.elements;
     console.log(title,description);
 
-    axios.post("http://localhost:3000/api/notes",{
+    axios.post("https://cohort-2-0-backend-ygz1.onrender.com/api/notes",{
       title:title.value,
       description:description.value
     })
@@ -69,7 +69,7 @@ fetchNotes();
 
   function handleDeleteNote(noteId) {
     // console.log(noteId);
-    axios.delete("http://localhost:3000/api/notes/"+noteId)
+    axios.delete("https://cohort-2-0-backend-ygz1.onrender.com/api/notes/"+noteId)
     .then(res=>{
       console.log(res.data);
       fetchNotes()
@@ -77,7 +77,7 @@ fetchNotes();
     
   }
  function handleSaveUpdate(noteId) {
-  axios.patch(`http://localhost:3000/api/notes/${noteId}`, {
+  axios.patch(`https://cohort-2-0-backend-ygz1.onrender.com/api/notes/${noteId}`, {
     description: editValue
   })
   .then(res => {
