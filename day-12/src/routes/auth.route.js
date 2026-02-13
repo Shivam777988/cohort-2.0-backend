@@ -3,7 +3,7 @@ const userModel=require("../models/user.model")
 const authRouter=express.Router()
 
 const jwt=require("jsonwebtoken")
-// /api/auth
+// /api/auth/register
 authRouter.post("/register",async(req,res)=>{
     const{email,name,password}=req.body;
     const isUserAlreadyExists=await userModel.findOne({email});
