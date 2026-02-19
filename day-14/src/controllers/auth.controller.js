@@ -4,7 +4,7 @@ const crypto=require("crypto")
 const authRouter=express.Router()
 const jwt=require("jsonwebtoken")
 
-
+const bcrypt = require('bcryptjs');
 
 
 async function registerController(req,res) {
@@ -32,7 +32,8 @@ async function registerController(req,res) {
             message:"user already exists"+(isUserAlreadyExists.email==email?"email aready exists":"username already exists")
         })
     }
-    const hash=crypto.createHash("sha256").update(password).digest('hex')
+    // const hash=crypto.createHash("sha256").update(password).digest('hex')
+   const hash=await bcrypt.hash(password,10)
     const user=await userModel.create({
         username,
         email,
@@ -79,8 +80,9 @@ async function loginController (req,res) {
             message:"user not found"
         })
     }
-    const hash=crypto.createHash("sha256").update(password).digest('hex')
-    const isPasswordValid=hash==user.password;
+    // const hash=crypto.createHash("sha256").update(password).digest('hex')
+    // const isPasswordValid=hash==user.password;
+    const isPasswordValid= await bcrypt.compare(password,user.password)
     if(!isPasswordValid){
         return res.status(401).json({
             message:"passowrd invalid"
