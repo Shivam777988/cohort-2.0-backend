@@ -20,7 +20,11 @@ catch(err){
         message:"user not authorized"
     })
 }
+
+
 req.user=decoded;
+console.log(req.user);
+
 next();
 }
 module.exports=identifyUser;
