@@ -9,18 +9,18 @@ function Register() {
     const [ password, setPassword ] = useState("")
     async function  handleFormSubmit(e) {
         e.preventDefault();
-        axios.post("http://localhost:3000/api/auth/register",{
-            username,
-            email,
-            password
-        },{
-            withCredentials:true
-        })
-        .then(res=>{
-            console.log(res.data);
+        // axios.post("http://localhost:3000/api/auth/register",{
+        //     username,
+        //     email,
+        //     password
+        // },{
+        //     withCredentials:true
+        // })
+        // .then(res=>{
+        //     console.log(res.data);
             
 
-        })
+        // })
     }
     return (
       <main>
@@ -28,17 +28,17 @@ function Register() {
             <h1>Register</h1>
                  <form onSubmit={handleFormSubmit}>
                             <input
-                        onInput={(e) => { setUsername(e.target.value) }}
+                        onChange={(e) => { setUsername(e.target.value) }}
                         type="text"
                         name='username'
                         placeholder='Enter username' />
                     <input
-                        onInput={(e) => { setEmail(e.target.value) }}
+                        onChange={(e) => { setEmail(e.target.value) }}
                         type="text"
                         name='email'
                         placeholder='Enter email' />
                     <input
-                        onInput={(e) => { setPassword(e.target.value) }}
+                        onChange={(e) => { setPassword(e.target.value) }}
                         type="password"
                         name='password'
                         placeholder='Enter password' />

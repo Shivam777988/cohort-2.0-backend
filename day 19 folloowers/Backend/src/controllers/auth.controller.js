@@ -53,7 +53,7 @@ id:user._id,username:user.username
         message:"ussr registered",
         user:{
             email:user.email,
-            username:username,
+            username:user.username,
             bio:user.bio,
             profileImage:user.profileImage,
         }
@@ -103,7 +103,22 @@ async function loginController (req,res) {
 
         }
     })}
+  async function getMeController(req,res) {
+    const userId=req.user.id
+    const user=await userModel.findById(userId)
+
+        res.status(201).json({
+        
+        user:{
+            email:user.email,
+            username:user.username,
+            bio:user.bio,
+            profileImage:user.profileImage,
+        }
+    })
+    
+  }
 
 module.exports={
-    registerController,loginController
+    registerController,loginController,getMeController
 }
