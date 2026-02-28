@@ -98,6 +98,27 @@ async function likePostController(req, res) {
     })
 
 }
+async function getFeedController(req,res){
+
+    const user=req.user
+const posts=await Promise.all((await postModel.find().populate("user").lean())
+.map(async(post)=>{
+
+    //type of post=mongooseObject
+    //so new property add ke liye lean lagao
+    const isLiked=await likeModel.findOne({
+        user:user.username,
+   post:post._id
+    }
+    )
+    post.isLiked=!!isLiked
+    return post
+}))
+
+res.status(200).json({
+    message:"post fetched succesfully",posts
+})
+}
 module.exports = {
-    createPostController,getPostController,getPostDetails,likePostController
+    createPostController,getPostController,getPostDetails,likePostController,getFeedController
 }

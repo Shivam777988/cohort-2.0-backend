@@ -18,4 +18,10 @@ postRouter.get("/details/:postId",identifyUser,postController.getPostDetails)
 //post/api/posts/likes/:postid
 //like a post with the id provided in the request params
 postRouter.post("/like/:postId",identifyUser,postController.likePostController)
+
+//get/api/posts/feed
+//get all post craerted in db
+//acess private
+postRouter.get("/feed",identifyUser,postController.getFeedController)
+
 module.exports=postRouter;

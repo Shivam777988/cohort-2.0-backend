@@ -28,6 +28,10 @@ main{
              background-color: #bd0c23;
             color: whitesmoke;
             cursor: pointer;
+            transition: all 0.9s ease-in-out;
+            &:active{
+                transform: scale(0.9);
+            }
         }
 
     }
