@@ -1,8 +1,8 @@
 import  axios  from "axios";
 
-const api=axios.create({
-    baseURL:"http://localhost:3000",
-    withCredentials:true
+const api = axios.create({
+    baseURL: "https://cohort-2-0-backend-1-am1y.onrender.com",
+    withCredentials: true
 })
 export async function getFeed(params) {
     const response=await api.get("/api/posts/feed")
