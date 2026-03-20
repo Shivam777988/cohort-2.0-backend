@@ -2,7 +2,7 @@ const express = require('express');
 const authRoutes=require("./routes/auth.routes")
 const cookieParser=require("cookie-parser")
 const cors=require("cors")
-
+const songRoutes=require("./routes/song.routes")
 
 
 
@@ -15,5 +15,5 @@ app.use(cors({
 }))
 
 app.use("/api/auth",authRoutes)
-
+app.use("/api/songs",songRoutes)
 module.exports=app;
