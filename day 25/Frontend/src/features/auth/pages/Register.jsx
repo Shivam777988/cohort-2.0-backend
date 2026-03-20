@@ -41,7 +41,10 @@ const Register = () => {
                     <FormGroup
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        label="Password" placeholder="Enter your password" />
+                        label="Password"
+                        placeholder="Enter your password"
+                        type="password"
+                    />
                     <button className='button' type="submit">Register</button>
                 </form>
                 <p>Already have an account? <Link to="/login">Login here</Link></p>
