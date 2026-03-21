@@ -10,32 +10,56 @@ export const useAuth = () => {
 
     async function handleRegister({ username, email, password }) {
         setLoading(true)
-        const data = await register({ username, email, password })
-        setUser(data.user)
-        setLoading(false)
-        console.log(data);
-        
+        try {
+            const data = await register({ username, email, password })
+            setUser(data.user)
+        } catch (error) {
+            console.error("Registration failed:", error.message)
+            throw error // Re-throw so components can handle it
+        } finally {
+            setLoading(false)
+        }
     }
 
     async function handleLogin({ username, email, password }) {
         setLoading(true)
-        const data = await login({ username, email, password })
-        setUser(data.user)
-        setLoading(false)
+        try {
+            const data = await login({ username, email, password })
+            setUser(data.user)
+        } catch (error) {
+            console.error("Login failed:", error.message)
+            throw error // Re-throw so components can handle it
+        } finally {
+            setLoading(false)
+        }
     }
 
     async function handleGetMe() {
         setLoading(true)
-        const data = await getMe()
-        setUser(data.user)
-        setLoading(false)
+        try {
+            const data = await getMe()
+            setUser(data.user)
+        } catch (error) {
+            // If getMe fails (401), user is not authenticated
+            setUser(null)
+            console.log("User not authenticated:", error.message)
+        } finally {
+            setLoading(false)
+        }
     }
 
     async function handleLogout() {
         setLoading(true)
-        const data = await logout()
-        setUser(null)
-        setLoading(false)
+        try {
+            await logout()
+            setUser(null)
+        } catch (error) {
+            console.error("Logout failed:", error.message)
+            // Still set user to null even if logout API fails
+            setUser(null)
+        } finally {
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
