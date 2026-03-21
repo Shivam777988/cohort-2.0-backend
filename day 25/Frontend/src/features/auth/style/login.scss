@@ -18,6 +18,39 @@
   color: #ff9f66;
 }
 
+.auth-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+.auth-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #ff8f45;
+}
+
+.auth-links {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-links a {
+  color: #a6c7f8;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(166, 199, 248, 0.4);
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.auth-links a:hover {
+  background: rgba(166, 199, 248, 0.15);
+}
+
 form {
   display: flex;
   flex-direction: column;

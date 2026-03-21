@@ -24,7 +24,14 @@ function Login() {
     return (
         <main className="login-page">
             <div className="form-container">
-                <h1>Welcome Back</h1>
+                <div className="auth-header">
+                    <h1>🎧 Moodify</h1>
+                    <div className="auth-links">
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
+                    </div>
+                </div>
+                <h2>Welcome Back</h2>
                 <p>Sign in to access your Moodify dashboard and personalized playlist recommendations.</p>
                 <form onSubmit={handleSubmit} >
                     <FormGroup

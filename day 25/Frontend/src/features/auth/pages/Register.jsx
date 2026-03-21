@@ -28,7 +28,14 @@ const Register = () => {
     return (
         <main className="register-page">
             <div className="form-container">
-                <h1>Create Your Moodify Account</h1>
+                <div className="auth-header">
+                    <h1>🎧 Moodify</h1>
+                    <div className="auth-links">
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
+                    </div>
+                </div>
+                <h2>Create Your Moodify Account</h2>
                 <p>Register now to save your mood-based playlists and access your library from any device.</p>
                 <form onSubmit={handleSubmit} >
                     <FormGroup
