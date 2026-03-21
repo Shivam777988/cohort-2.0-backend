@@ -6,6 +6,7 @@ import Dashboard from "./features/home/pages/Dashboard"
 import Home from "./features/home/pages/Home"
 import UploadPage from "./features/home/pages/UploadPage"
 import LibraryPage from "./features/home/pages/LibraryPage"
+import AboutPage from "./features/home/pages/AboutPage"
 
 export const router = createBrowserRouter([
     {
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
         element: <Protected><Dashboard /></Protected>,
         children: [
             { index: true, element: <Home /> },
+            { path: "about", element: <AboutPage /> },
             { path: "upload", element: <UploadPage /> },
             { path: "songs", element: <LibraryPage /> },
         ],
