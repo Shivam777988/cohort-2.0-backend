@@ -6,13 +6,14 @@ import { useEffect } from "react";
 
 export const useAuth = () => {
     const context = useContext(AuthContext)
-    const { user, setUser, loading, setLoading } = context
+    const { user, setUser, loading, setLoading, initialized, setInitialized } = context
 
     async function handleRegister({ username, email, password }) {
         setLoading(true)
         try {
             const data = await register({ username, email, password })
             setUser(data.user)
+            setInitialized(true)
         } catch (error) {
             console.error("Registration failed:", error.message)
             throw error // Re-throw so components can handle it
@@ -26,6 +27,7 @@ export const useAuth = () => {
         try {
             const data = await login({ username, email, password })
             setUser(data.user)
+            setInitialized(true)
         } catch (error) {
             console.error("Login failed:", error.message)
             throw error // Re-throw so components can handle it
@@ -53,18 +55,27 @@ export const useAuth = () => {
         try {
             await logout()
             setUser(null)
+            setInitialized(false)
         } catch (error) {
             console.error("Logout failed:", error.message)
             // Still set user to null even if logout API fails
             setUser(null)
+            setInitialized(false)
         } finally {
             setLoading(false)
         }
     }
 
     useEffect(() => {
-        handleGetMe()
-    }, [])
+        if (!initialized) {
+            setInitialized(true)
+            handleGetMe()
+        } else if (user) {
+            setLoading(false)
+        } else {
+            setLoading(false)
+        }
+    }, [initialized])
 
     return ({
         user, loading, handleRegister, handleLogin, handleLogout, handleGetMe

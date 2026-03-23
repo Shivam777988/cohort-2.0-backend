@@ -13,10 +13,10 @@ export default function Dashboard() {
                 </div>
 
                 <nav className="dashboard__topnav">
-                    <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>
+                    <NavLink to="/app" end className={({ isActive }) => isActive ? 'active' : ''}>
                         Home
                     </NavLink>
-                    <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>
+                    <NavLink to="/app/about" className={({ isActive }) => isActive ? 'active' : ''}>
                         About
                     </NavLink>
                 </nav>
@@ -30,13 +30,13 @@ export default function Dashboard() {
             <aside className="dashboard__sidebar">
                 <h2>moodify</h2>
                 <nav>
-                    <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>
+                    <NavLink to="/app" end className={({ isActive }) => isActive ? 'active' : ''}>
                         mood home
                     </NavLink>
-                    <NavLink to="/upload" className={({ isActive }) => isActive ? 'active' : ''}>
+                    <NavLink to="/app/upload" className={({ isActive }) => isActive ? 'active' : ''}>
                         upload
                     </NavLink>
-                    <NavLink to="/songs" className={({ isActive }) => isActive ? 'active' : ''}>
+                    <NavLink to="/app/songs" className={({ isActive }) => isActive ? 'active' : ''}>
                         library
                     </NavLink>
                 </nav>
