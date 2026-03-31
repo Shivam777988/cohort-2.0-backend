@@ -35,20 +35,62 @@ const Login = () => {
     }
 
     return (
-        <section className="min-h-screen bg-zinc-950 px-4 py-10 text-zinc-100 sm:px-6 lg:px-8">
+        <section className="relative min-h-screen w-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-4 py-10 text-white sm:px-6 lg:px-8 overflow-hidden">
+            {/* Decorative gradient orbs */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -z-10"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -z-10"></div>
+
             <div className="mx-auto flex min-h-[85vh] w-full max-w-5xl items-center justify-center">
-                <div className="w-full max-w-md rounded-2xl border border-[#31b8c6]/40 bg-zinc-900/70 p-8 shadow-2xl shadow-black/50 backdrop-blur">
-                    <h1 className="text-3xl font-bold text-[#31b8c6]">
-                        Welcome Back
-                    </h1>
-                    <p className="mt-2 text-sm text-zinc-300">
-                        Sign in with your email and password.
-                    </p>
+                {/* Left side - Branding */}
+                <div className="hidden max-w-md flex-col lg:flex">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 mb-6">
+                        <span className="text-2xl font-bold text-white">P</span>
+                    </div>
+                    <h2 className="text-4xl font-bold text-white mb-4">Perplexity</h2>
+                    <p className="text-slate-400 text-lg mb-8">Your AI-powered conversation companion</p>
+                    <div className="space-y-4">
+                        <div className="flex gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/30">
+                                <svg className="h-6 w-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            </div>
+                            <div>
+                                <p className="font-semibold text-white">Lightning Fast</p>
+                                <p className="text-sm text-slate-400">Get instant AI responses</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+                                <svg className="h-6 w-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            </div>
+                            <div>
+                                <p className="font-semibold text-white">Secure & Private</p>
+                                <p className="text-sm text-slate-400">Your conversations are protected</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10 border border-purple-500/30">
+                                <svg className="h-6 w-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <div>
+                                <p className="font-semibold text-white">Always Learning</p>
+                                <p className="text-sm text-slate-400">Improved conversations over time</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right side - Login Form */}
+                <div className="w-full max-w-md rounded-2xl border border-slate-700/50 bg-slate-900/50 p-8 shadow-2xl shadow-black/50 backdrop-blur-xl">
+                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 lg:hidden">
+                        <span className="text-lg font-bold text-white">P</span>
+                    </div>
+                    <h1 className="text-3xl font-bold text-white">Welcome Back</h1>
+                    <p className="mt-2 text-sm text-slate-400">Sign in to continue to Perplexity</p>
 
                     <form onSubmit={submitForm} className="mt-8 space-y-5">
                         <div>
-                            <label htmlFor="email" className="mb-2 block text-sm font-medium text-zinc-200">
-                                Email
+                            <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-200">
+                                Email Address
                             </label>
                             <input
                                 id="email"
@@ -57,12 +99,12 @@ const Login = () => {
                                 onChange={(event) => setEmail(event.target.value)}
                                 placeholder="you@example.com"
                                 required
-                                className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-zinc-100 outline-none ring-0 transition focus:border-[#31b8c6] focus:shadow-[0_0_0_3px_rgba(49,184,198,0.25)]"
+                                className="w-full rounded-lg border border-slate-700/50 bg-slate-800/50 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-500/50 focus:bg-slate-800 focus:ring-4 focus:ring-blue-500/10"
                             />
                         </div>
 
                         <div>
-                            <label htmlFor="password" className="mb-2 block text-sm font-medium text-zinc-200">
+                            <label htmlFor="password" className="mb-2 block text-sm font-medium text-slate-200">
                                 Password
                             </label>
                             <input
@@ -72,22 +114,31 @@ const Login = () => {
                                 onChange={(event) => setPassword(event.target.value)}
                                 placeholder="Enter your password"
                                 required
-                                className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-zinc-100 outline-none ring-0 transition focus:border-[#31b8c6] focus:shadow-[0_0_0_3px_rgba(49,184,198,0.25)]"
+                                className="w-full rounded-lg border border-slate-700/50 bg-slate-800/50 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-500/50 focus:bg-slate-800 focus:ring-4 focus:ring-blue-500/10"
                             />
                         </div>
 
                         <button
                             type="submit"
-                            className="w-full rounded-lg bg-[#31b8c6] px-4 py-3 font-semibold text-zinc-950 transition hover:bg-[#45c7d4] focus:outline-none focus:shadow-[0_0_0_3px_rgba(49,184,198,0.35)]"
+                            className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-3 font-semibold text-white transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/20 active:scale-95 focus:outline-none focus:ring-4 focus:ring-blue-500/30"
                         >
-                            Login
+                            Sign In
                         </button>
                     </form>
 
-                    <p className="mt-6 text-center text-sm text-zinc-300">
+                    <div className="relative my-6">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-slate-700/50"></div>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="bg-slate-900/50 px-2 text-slate-400">New to Perplexity?</span>
+                        </div>
+                    </div>
+
+                    <p className="text-center text-sm text-slate-400">
                         Don&apos;t have an account?{' '}
-                        <Link to="/register" className="font-semibold text-[#31b8c6] transition hover:text-[#45c7d4]">
-                            Register
+                        <Link to="/register" className="font-semibold text-blue-400 transition hover:text-blue-300">
+                            Create one now
                         </Link>
                     </p>
                 </div>
