@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
-import Dashboard from "../features/auth/chat/pages/Dashboard";
+import Dashboard from "../features/chat/pages/Dashboard";
 import Protected from "../features/auth/components/Protected";
 
 export const router = createBrowserRouter([
