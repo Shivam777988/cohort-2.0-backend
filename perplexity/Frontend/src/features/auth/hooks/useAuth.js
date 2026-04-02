@@ -26,13 +26,17 @@ export function useAuth() {
             dispatch(setLoading(false))
         }
     }
-     async function handleGetMe() {
+    async function handleGetMe() {
         try {
             dispatch(setLoading(true))
             const data = await getMe()
             dispatch(setUser(data.user))
         } catch (err) {
-            dispatch(setError(err.response?.data?.message || "Failed to fetch user data"))
+            // 401 means user is not authenticated - this is expected on first load
+            if (err.response?.status !== 401) {
+                dispatch(setError(err.response?.data?.message || "Failed to fetch user data"))
+            }
+            dispatch(setUser(null))
         } finally {
             dispatch(setLoading(false))
         }

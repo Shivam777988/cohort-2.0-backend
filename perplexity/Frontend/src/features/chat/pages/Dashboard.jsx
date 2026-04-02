@@ -24,9 +24,11 @@ const Dashboard = () => {
   const messagesEndRef = React.useRef(null)
 
   useEffect(() => {
-    chat.initializeSocketConnection()
-    chat.handleGetChats()
-  }, [])
+    if (user) {
+      chat.initializeSocketConnection()
+      chat.handleGetChats()
+    }
+  }, [user])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })

@@ -16,7 +16,7 @@ const Protected = ({ children }) => {
                 <div className="flex flex-col items-center gap-6">
                     {/* Logo */}
                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 animate-pulse">
-                        <span className="text-3xl font-bold text-white">P</span>
+                        <span className="text-3xl font-bold text-white"><svg className='h-6 w-6 text-yellow-400' viewBox='0 0 24 24' fill='currentColor'><path d='M12 2C6.48 2 2 6.48 2 12c0 5.52 4.48 10 10 10s10-4.48 10-10c0-5.52-4.48-10-10-10zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5z'/></svg></span>
                     </div>
 
                     {/* Loading spinner */}

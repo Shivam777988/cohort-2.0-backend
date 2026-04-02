@@ -10,44 +10,56 @@ export const useChat = () => {
 
 
     async function handleSendMessage({ message, chatId, image }) {
-        dispatch(setLoading(true))
-        const data = await sendMessage({ message, chatId, image })
-        const { chat, aiMessage } = data
-        if (!chatId)
-            dispatch(createNewChat({
-                chatId: chat._id,
-                title: chat.title,
+        try {
+            dispatch(setLoading(true))
+            const data = await sendMessage({ message, chatId, image })
+            const { chat, aiMessage } = data
+            if (!chatId)
+                dispatch(createNewChat({
+                    chatId: chat._id,
+                    title: chat.title,
+                }))
+            dispatch(addNewMessage({
+                chatId: chatId || chat._id,
+                content: message,
+                role: "user",
+                image: image || null
             }))
-        dispatch(addNewMessage({
-            chatId: chatId || chat._id,
-            content: message,
-            role: "user",
-            image: image || null
-        }))
-        dispatch(addNewMessage({
-            chatId: chatId || chat._id,
-            content: aiMessage.content,
-            role: aiMessage.role,
-        }))
-       
-        dispatch(setCurrentChatId(chat._id))
-    
+            dispatch(addNewMessage({
+                chatId: chatId || chat._id,
+                content: aiMessage.content,
+                role: aiMessage.role,
+            }))
+           
+            dispatch(setCurrentChatId(chat._id))
+            dispatch(setLoading(false))
+        } catch (error) {
+            console.error('Error sending message:', error)
+            dispatch(setError(error.message))
+            dispatch(setLoading(false))
+        }
     }
 
     async function handleGetChats() {
-        dispatch(setLoading(true))
-        const data = await getChats()
-        const { chats } = data
-        dispatch(setChats(chats.reduce((acc, chat) => {
-            acc[ chat._id ] = {
-                id: chat._id,
-                title: chat.title,
-                messages: [],
-                lastUpdated: chat.updatedAt,
-            }
-            return acc
-        }, {})))
-        dispatch(setLoading(false))
+        try {
+            dispatch(setLoading(true))
+            const data = await getChats()
+            const { chats } = data
+            dispatch(setChats(chats.reduce((acc, chat) => {
+                acc[ chat._id ] = {
+                    id: chat._id,
+                    title: chat.title,
+                    messages: [],
+                    lastUpdated: chat.updatedAt,
+                }
+                return acc
+            }, {})))
+            dispatch(setLoading(false))
+        } catch (error) {
+            console.error('Error fetching chats:', error)
+            dispatch(setError(error.message))
+            dispatch(setLoading(false))
+        }
     }
 
   async function handleOpenChat(chatId, chats) {
@@ -61,6 +73,7 @@ export const useChat = () => {
             const formattedMessages = messages.map(msg => ({
                 content: msg.content,
                 role: msg.role,
+                image: msg.image || null,
             }))
 
             dispatch(addMessages({

@@ -5,6 +5,18 @@ const api = axios.create({
     withCredentials: true,
 })
 
+// Handle 401 errors
+api.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response?.status === 401) {
+            // Redirect to login on unauthorized
+            window.location.href = '/auth/login'
+        }
+        return Promise.reject(error)
+    }
+)
+
 
 export const sendMessage = async ({ message, chatId, image }) => {
     const response = await api.post("/api/chats/message", { message, chat: chatId, image })
