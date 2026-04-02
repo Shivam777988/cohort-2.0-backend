@@ -1,4 +1,5 @@
 @import "tailwindcss";
+<<<<<<< HEAD
 
 @layer base {
   * {
@@ -113,4 +114,8 @@
   .transition-smooth {
     @apply transition-all duration-200 ease-out;
   }
+=======
+.messages::-webkit-scrollbar {
+  display: none;
+>>>>>>> main
 }
