@@ -43,10 +43,12 @@ const Login = () => {
             <div className="mx-auto flex min-h-[85vh] w-full max-w-5xl items-center justify-center">
                 {/* Left side - Branding */}
                 <div className="hidden max-w-md flex-col lg:flex">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 mb-6">
-                        <span className="text-2xl font-bold text-white">P</span>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-black border-2 border-yellow-400 mb-6">
+                        <svg className='h-8 w-8 text-yellow-400' viewBox='0 0 24 24' fill='currentColor'>
+                          <path d='M12 2C6.48 2 2 6.48 2 12c0 5.52 4.48 10 10 10s10-4.48 10-10c0-5.52-4.48-10-10-10zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5z'/>
+                        </svg>
                     </div>
-                    <h2 className="text-4xl font-bold text-white mb-4">Perplexity</h2>
+                    <h2 className="text-4xl font-bold text-white mb-4">Cortex AI</h2>
                     <p className="text-slate-400 text-lg mb-8">Your AI-powered conversation companion</p>
                     <div className="space-y-4">
                         <div className="flex gap-3">
@@ -87,7 +89,7 @@ const Login = () => {
                         </svg>
                     </div>
                     <h1 className="text-3xl font-bold text-white">Welcome Back</h1>
-                    <p className="mt-2 text-sm text-slate-400">Sign in to continue to Cortex AI</p>
+                    <p className="mt-2 text-sm text-slate-400">Sign in to Cortex AI</p>
 
                     <form onSubmit={submitForm} className="mt-8 space-y-5">
                         <div>
