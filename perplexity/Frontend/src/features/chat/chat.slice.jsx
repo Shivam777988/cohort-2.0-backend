@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+let messageIdCounter = 0;
 
 const chatSlice = createSlice({
     name: 'chat',
@@ -20,12 +21,21 @@ const chatSlice = createSlice({
             }
         },
         addNewMessage: (state, action) => {
-            const { chatId, content, role } = action.payload
-            state.chats[ chatId ].messages.push({ content, role })
+            const { chatId, content, role, image } = action.payload
+            state.chats[ chatId ].messages.push({ 
+                content, 
+                role, 
+                image: image || null, 
+                id: `${chatId}-${++messageIdCounter}` 
+            })
         },
         addMessages: (state, action) => {
             const { chatId, messages } = action.payload
-            state.chats[ chatId ].messages.push(...messages)
+            const messagesWithIds = messages.map((msg, index) => ({
+                ...msg,
+                id: msg.id || `${chatId}-${++messageIdCounter}`
+            }))
+            state.chats[ chatId ].messages.push(...messagesWithIds)
         },
         setChats: (state, action) => {
             state.chats = action.payload

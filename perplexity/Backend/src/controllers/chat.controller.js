@@ -4,13 +4,19 @@ import messageModel from "../models/message.model.js";
 
 export async function sendMessage(req, res) {
 console.log("REQ BODY:", req.body);
-    const { message, chat: chatId } = req.body;
+    const { message, chat: chatId, image } = req.body;
 
+    // Validate that at least message or image is provided
+    if (!message?.trim() && !image) {
+        return res.status(400).json({
+            message: "Please provide either a message or an image"
+        })
+    }
 
     let title = null, chat = null;
 
     if (!chatId) {
-        title = await generateChatTitle(message);
+        title = await generateChatTitle(message || "Image Analysis");
         chat = await chatModel.create({
             user: req.user.id,
             title
@@ -19,8 +25,9 @@ console.log("REQ BODY:", req.body);
 
     const userMessage = await messageModel.create({
         chat: chatId || chat._id,
-        content: message,
-        role: "user"
+        content: message || "",
+        role: "user",
+        image: image || null
     })
 
  const messages = await messageModel.find({

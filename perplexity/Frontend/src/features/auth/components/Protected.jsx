@@ -27,7 +27,7 @@ const Protected = ({ children }) => {
 
                     {/* Loading text */}
                     <div className="text-center">
-                        <p className="text-lg font-semibold text-white mb-2">Loading Perplexity</p>
+                        <p className="text-lg font-semibold text-white mb-2">Loading Cortex AI</p>
                         <p className="text-sm text-slate-400">Please wait while we prepare your workspace...</p>
                     </div>
                 </div>

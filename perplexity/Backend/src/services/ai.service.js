@@ -30,6 +30,45 @@ const agent = createAgent({
 export async function generateResponse(messages) {
     console.log(messages)
 
+    // Check if any message has an image
+    const hasImage = messages.some(msg => msg.image);
+
+    if (hasImage) {
+        // Use Gemini Vision for image analysis
+        const lastUserMessage = messages.filter(msg => msg.role === 'user').pop();
+        
+        const messageContent = [];
+        
+        // Add text content if it exists
+        if (lastUserMessage.content?.trim()) {
+            messageContent.push({ type: "text", text: lastUserMessage.content });
+        } else {
+            // Default prompt for image-only uploads
+            messageContent.push({ type: "text", text: "Please analyze this image and provide a detailed explanation of what you see." });
+        }
+
+        if (lastUserMessage.image) {
+            messageContent.push({
+                type: "image_url",
+                image_url: {
+                    url: lastUserMessage.image
+                }
+            });
+        }
+
+        const response = await geminiModel.invoke([
+            new SystemMessage(`
+                You are a helpful and precise assistant for answering questions.
+                If the user shares an image, analyze it carefully and provide a detailed explanation.
+                If you don't know the answer, say you don't know.
+            `),
+            new HumanMessage(messageContent)
+        ]);
+
+        return response.text;
+    }
+
+    // Original flow for text-only messages
     const response = await agent.invoke({
         messages: [
             new SystemMessage(`

@@ -71,11 +71,13 @@ const Register = () => {
 
         {/* Right side - Register Form */}
         <div className="w-full max-w-md rounded-2xl border border-slate-700/50 bg-slate-900/50 p-8 shadow-2xl shadow-black/50 backdrop-blur-xl">
-          <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 lg:hidden">
-            <span className="text-lg font-bold text-white">P</span>
+          <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-black border-2 border-yellow-400 lg:hidden">
+            <svg className='h-6 w-6 text-yellow-400' viewBox='0 0 24 24' fill='currentColor'>
+              <path d='M12 2C6.48 2 2 6.48 2 12c0 5.52 4.48 10 10 10s10-4.48 10-10c0-5.52-4.48-10-10-10zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5z'/>
+            </svg>
           </div>
           <h1 className="text-3xl font-bold text-white">Create Account</h1>
-          <p className="mt-2 text-sm text-slate-400">Join Perplexity and start exploring AI today</p>
+          <p className="mt-2 text-sm text-slate-400">Join Cortex AI and start exploring AI today</p>
 
           <form onSubmit={submitForm} className="mt-8 space-y-5">
             <div>
