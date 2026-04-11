@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { useSelector, useDispatch } from 'react-redux'
 import { useChat } from '../hooks/useChat'
 import { setCurrentChatId } from '../chat.slice'
-import { useNavigate } from 'react-router'
+import { useNavigate, Link } from 'react-router'
 import { logout } from '../../auth/auth.slice'
+import { useAuth } from '../../auth/hooks/useAuth'
 import remarkgfm from 'remark-gfm'
-import remarkGfm from 'remark-gfm'
 
 const Dashboard = () => {
   const chat = useChat()
+  const auth = useAuth()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [ chatInput, setChatInput ] = useState('')
@@ -77,9 +80,9 @@ const Dashboard = () => {
     setChatInput('')
   }
 
-  const handleLogout = () => {
-    dispatch(logout())
-    navigate('/auth/login')
+  const handleLogout = async () => {
+    await auth.handleLogout()
+    navigate('/login')
   }
 
   // Close user menu when clicking outside
@@ -95,10 +98,10 @@ const Dashboard = () => {
   }, [])
 
   return (
-    <main className='min-h-screen w-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white'>
+    <main className='min-h-screen w-full bg-gradient-to-br from-black via-slate-900 to-black text-white'>
       <section className='mx-auto flex h-screen w-full'>
         {/* Sidebar - Hidden on mobile when no messages */}
-        <aside className={`${chats[currentChatId]?.messages.length > 0 ? 'flex' : 'hidden md:flex'} h-full w-64 shrink-0 flex-col border-r border-slate-800/50 bg-gradient-to-b from-slate-900 to-slate-950 p-4`}>
+        <aside className={`${chats[currentChatId]?.messages.length > 0 ? 'flex' : 'hidden md:flex'} h-full w-64 shrink-0 flex-col border-r border-yellow-600/30 bg-gradient-to-b from-black to-slate-900 p-4`}>
           {/* Logo */}
           <div className='mb-8 flex items-center gap-2'>
             <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-black border-2 border-yellow-400'>
@@ -112,7 +115,7 @@ const Dashboard = () => {
           {/* New Chat Button */}
           <button
             onClick={handleNewChat}
-            className='mb-6 flex w-full items-center justify-center gap-2 rounded-lg border border-slate-700/50 bg-slate-800/40 px-4 py-3 text-sm font-medium text-slate-200 transition-all duration-200 hover:border-slate-600 hover:bg-slate-800 active:scale-95'
+            className='mb-6 flex w-full items-center justify-center gap-2 rounded-lg border border-yellow-600/30 bg-black/40 px-4 py-3 text-sm font-medium text-yellow-400 transition-all duration-200 hover:border-yellow-500/50 hover:bg-black/60 active:scale-95'
           >
             <svg className='h-5 w-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 4v16m8-8H4' />
@@ -133,8 +136,8 @@ const Dashboard = () => {
                 key={index}
                 className={`group relative w-full rounded-lg px-3 py-2.5 text-left text-sm transition-all duration-150 ${
                   currentChatId === chatItem.id
-                    ? 'bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-500/30 text-white'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
+                    ? 'bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border border-yellow-500/30 text-white'
+                    : 'text-slate-400 hover:text-white hover:bg-black/40'
                 }`}
               >
                 <p className='truncate font-medium'>{chatItem.title || 'New Chat'}</p>
@@ -144,8 +147,8 @@ const Dashboard = () => {
           </div>
 
           {/* Sidebar Footer */}
-          <div className='mt-auto border-t border-slate-800/50 pt-4'>
-            <button className='group relative w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-400 transition-all duration-150 hover:text-white hover:bg-slate-800/40 flex items-center gap-2'>
+          <div className='mt-auto border-t border-yellow-600/30 pt-4'>
+            <button className='group relative w-full rounded-lg px-3 py-2.5 text-left text-sm text-slate-400 transition-all duration-150 hover:text-yellow-400 hover:bg-black/40 flex items-center gap-2'>
               <svg className='h-5 w-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                 <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' />
                 <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 12a3 3 0 11-6 0 3 3 0 016 0z' />
@@ -158,16 +161,22 @@ const Dashboard = () => {
         {/* Main Content Area */}
         <section className='relative flex h-full min-w-0 flex-1 flex-col justify-between'>
           {/* Header with User Profile */}
-          <div className='border-b border-slate-800/50 bg-gradient-to-r from-slate-900/50 to-slate-800/30 px-6 py-4 flex items-center justify-between'>
-            <div></div>
+          <div className='border-b border-yellow-600/30 bg-gradient-to-r from-black to-slate-900/50 px-6 py-4 flex items-center justify-between'>
+            {/* Navigation Links */}
+            <div className='flex items-center gap-6'>
+              <Link to="/" className='text-slate-300 hover:text-yellow-400 transition-colors font-medium'>Home</Link>
+              <a href="/#about" className='text-slate-300 hover:text-yellow-400 transition-colors font-medium'>About</a>
+              <a href="/#info" className='text-slate-300 hover:text-yellow-400 transition-colors font-medium'>How it works</a>
+              <a href="/#plans" className='text-slate-300 hover:text-yellow-400 transition-colors font-medium'>Plans</a>
+            </div>
             {/* User Profile Icon */}
             <div className='relative' ref={userMenuRef}>
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className='flex items-center gap-3 rounded-full bg-slate-800/50 hover:bg-slate-800 transition-colors px-4 py-2 border border-slate-700/50'
+                className='flex items-center gap-3 rounded-full bg-black/40 hover:bg-black/60 transition-colors px-4 py-2 border border-yellow-600/30'
               >
-                <div className='flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-500'>
-                  <span className='text-sm font-bold text-white'>{user?.email?.[0]?.toUpperCase() || 'U'}</span>
+                <div className='flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600'>
+                  <span className='text-sm font-bold text-black'>{user?.email?.[0]?.toUpperCase() || 'U'}</span>
                 </div>
                 <span className='text-sm font-medium text-slate-200 hidden sm:block'>{user?.email}</span>
                 <svg className={`h-4 w-4 text-slate-400 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -177,14 +186,14 @@ const Dashboard = () => {
 
               {/* Dropdown Menu */}
               {showUserMenu && (
-                <div className='absolute right-0 mt-2 w-48 rounded-lg border border-slate-700/50 bg-slate-900 shadow-lg z-50'>
-                  <div className='px-4 py-3 border-b border-slate-700/50'>
+                <div className='absolute right-0 mt-2 w-48 rounded-lg border border-yellow-600/30 bg-black/50 shadow-lg z-50'>
+                  <div className='px-4 py-3 border-b border-yellow-600/30'>
                     <p className='text-sm font-medium text-white'>{user?.email}</p>
                     <p className='text-xs text-slate-400 mt-1'>Signed in</p>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className='w-full px-4 py-3 text-left text-sm text-red-400 hover:bg-slate-800 transition-colors flex items-center gap-2'
+                    className='w-full px-4 py-3 text-left text-sm text-yellow-400 hover:bg-black/60 transition-colors flex items-center gap-2'
                   >
                     <svg className='h-4 w-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1' />
@@ -209,18 +218,18 @@ const Dashboard = () => {
                       </svg>
                     </div>
                   </div>
-                  <h2 className='text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent'>Welcome to Cortex AI</h2>
-                  <p className='text-slate-400 text-lg mb-8'>Ask me anything and I'll search the internet to find you the latest information.</p>
+                  <h2 className='text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-400 to-yellow-300 bg-clip-text text-transparent'>Welcome to Cortex AI</h2>
+                  <p className='text-slate-300 text-lg mb-8'>Ask me anything and I'll search the internet to find you the latest information.</p>
                   
                   {/* Suggested Prompts */}
                   <div className='grid grid-cols-1 md:grid-cols-2 gap-3 mt-8'>
-                    <button className='p-4 rounded-xl border border-slate-700/50 bg-slate-800/30 hover:bg-slate-800/50 transition-all duration-200 text-left group'>
-                      <p className='text-slate-200 font-medium group-hover:text-white transition-colors'>🇮🇳 Latest news in India</p>
-                      <p className='text-slate-500 text-sm mt-1'>Get current updates</p>
+                    <button className='p-4 rounded-xl border border-yellow-600/30 bg-black/40 hover:bg-black/60 transition-all duration-200 text-left group'>
+                      <p className='text-slate-200 font-medium group-hover:text-yellow-400 transition-colors'>🇮🇳 Latest news in India</p>
+                      <p className='text-slate-400 text-sm mt-1'>Get current updates</p>
                     </button>
-                    <button className='p-4 rounded-xl border border-slate-700/50 bg-slate-800/30 hover:bg-slate-800/50 transition-all duration-200 text-left group'>
-                      <p className='text-slate-200 font-medium group-hover:text-white transition-colors'>📊 Stock market trends</p>
-                      <p className='text-slate-500 text-sm mt-1'>Market analysis</p>
+                    <button className='p-4 rounded-xl border border-yellow-600/30 bg-black/40 hover:bg-black/60 transition-all duration-200 text-left group'>
+                      <p className='text-slate-200 font-medium group-hover:text-yellow-400 transition-colors'>📊 Stock market trends</p>
+                      <p className='text-slate-400 text-sm mt-1'>Market analysis</p>
                     </button>
                   </div>
                 </div>
@@ -235,7 +244,7 @@ const Dashboard = () => {
                       className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
                       <div
-                        className={`rounded-2xl px-4 py-3 text-sm md:text-base max-w-xl ${message.role === 'user'
+                        className={`rounded-2xl px-4 py-3 text-sm md:text-base ${message.role === 'user' ? 'max-w-xl' : 'max-w-4xl'} ${message.role === 'user'
                           ? 'rounded-br-none bg-white/12 text-white'
                           : 'rounded-bl-none bg-slate-800/40 text-white/90'
                         }`}
@@ -251,12 +260,29 @@ const Dashboard = () => {
                           <p>{message.content}</p>
                         ) : (
                           <ReactMarkdown
+                            remarkPlugins={[remarkgfm]}
                             components={{
                               p: ({ children }) => <p className='mb-2 last:mb-0'>{children}</p>,
                               ul: ({ children }) => <ul className='mb-2 list-disc pl-5'>{children}</ul>,
                               ol: ({ children }) => <ol className='mb-2 list-decimal pl-5'>{children}</ol>,
-                              code: ({ children }) => <code className='rounded bg-white/10 px-1 py-0.5'>{children}</code>,
-                              pre: ({ children }) => <pre className='mb-2 overflow-x-auto rounded-xl bg-black/30 p-3'>{children}</pre>
+                              code({ node, inline, className, children, ...props }) {
+                                const match = /language-(\w+)/.exec(className || '')
+                                return !inline && match ? (
+                                  <SyntaxHighlighter
+                                    style={oneDark}
+                                    language={match[1]}
+                                    PreTag="div"
+                                    {...props}
+                                  >
+                                    {String(children).replace(/\n$/, '')}
+                                  </SyntaxHighlighter>
+                                ) : (
+                                  <code className='rounded bg-white/10 px-1 py-0.5' {...props}>
+                                    {children}
+                                  </code>
+                                )
+                              },
+                              pre: ({ children }) => <div className='mb-2'>{children}</div>
                             }}
                           >
                             {message.content}
@@ -272,7 +298,7 @@ const Dashboard = () => {
           </div>
 
           {/* Input Area - Full Width */}
-          <div className='border-t border-slate-800/50 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent px-4 py-8 backdrop-blur-sm flex justify-center w-full'>
+          <div className='border-t border-yellow-600/30 bg-gradient-to-t from-black via-black/95 to-transparent px-4 py-8 backdrop-blur-sm flex justify-center w-full'>
             <form onSubmit={handleSubmitMessage} className='w-full max-w-4xl'>
               {/* Image Preview */}
               {imagePreview && (
@@ -302,7 +328,7 @@ const Dashboard = () => {
                 <button
                   type='button'
                   onClick={() => fileInputRef.current?.click()}
-                  className='rounded-full bg-slate-800/50 border border-slate-700/50 px-4 py-3.5 text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200 flex items-center gap-2'
+                  className='rounded-full bg-black/40 border border-yellow-600/30 px-4 py-3.5 text-yellow-400 hover:text-yellow-300 hover:bg-black/60 transition-all duration-200 flex items-center gap-2'
                   title='Upload image'
                 >
                   <svg className='h-5 w-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -325,7 +351,7 @@ const Dashboard = () => {
                     value={chatInput}
                     onChange={(event) => setChatInput(event.target.value)}
                     placeholder='Ask me anything...'
-                    className='w-full rounded-full border border-slate-700/50 bg-slate-800/50 px-6 py-3.5 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-500/50 focus:bg-slate-800/80 hover:border-slate-600/50 focus:ring-2 focus:ring-blue-500/20'
+                    className='w-full rounded-full border border-yellow-600/30 bg-black/40 px-6 py-3.5 text-white outline-none transition placeholder:text-slate-500 focus:border-yellow-500/50 focus:bg-black/60 hover:border-yellow-600/50 focus:ring-2 focus:ring-yellow-500/20'
                   />
                 </div>
 
@@ -333,14 +359,14 @@ const Dashboard = () => {
                 <button
                   type='submit'
                   disabled={!chatInput.trim() && !selectedImage}
-                  className='rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-3.5 font-semibold text-white transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/20 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-none flex items-center gap-2'
+                  className='rounded-full bg-gradient-to-r from-yellow-500 to-yellow-600 px-6 py-3.5 font-semibold text-black transition-all duration-200 hover:shadow-lg hover:shadow-yellow-500/20 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-none flex items-center gap-2'
                 >
                   <svg className='h-5 w-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                     <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 19l9 2-9-18-9 18 9-2zm0 0v-8' />
                   </svg>
                 </button>
               </div>
-              <p className='mt-3 text-center text-xs text-slate-500'>Powered by the internet and AI • Explain images by uploading them</p>
+              <p className='mt-3 text-center text-xs text-slate-400'>Powered by the internet and AI • Explain images by uploading them</p>
             </form>
           </div>
         </section>

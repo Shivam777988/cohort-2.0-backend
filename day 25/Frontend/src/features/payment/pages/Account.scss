@@ -1,0 +1,348 @@
+.account-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  padding: 3rem 2rem;
+  color: #fff;
+}
+
+.account-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    color: #b3b3b3;
+    font-size: 1.1rem;
+  }
+}
+
+.account-container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.account-sidebar {
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(40, 40, 40, 0.8));
+  border: 1px solid rgba(255, 136, 0, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  height: fit-content;
+  
+  .account-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    .nav-item {
+      padding: 1rem;
+      background: transparent;
+      border: none;
+      color: #b3b3b3;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      
+      &:hover {
+        background: rgba(255, 136, 0, 0.1);
+        color: #ff8800;
+      }
+      
+      &.active {
+        background: rgba(255, 136, 0, 0.15);
+        color: #ff8800;
+        border-left: 3px solid #ff8800;
+        padding-left: calc(1rem - 3px);
+      }
+    }
+  }
+}
+
+.account-content {
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(40, 40, 40, 0.8));
+  border: 1px solid rgba(255, 136, 0, 0.2);
+  border-radius: 1rem;
+  padding: 2.5rem;
+  
+  .tab-content {
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      color: #fff;
+    }
+  }
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #fff;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 136, 0, 0.2);
+    border-radius: 0.5rem;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+    
+    &:focus {
+      outline: none;
+      border-color: rgba(255, 136, 0, 0.6);
+      background: rgba(255, 136, 0, 0.05);
+      box-shadow: 0 0 10px rgba(255, 136, 0, 0.1);
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.subscription-card {
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.1), rgba(255, 68, 68, 0.05));
+  border: 1px solid rgba(255, 136, 0, 0.3);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  
+  .status-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff4444, #ff8800);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .plan-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  .next-billing {
+    color: #b3b3b3;
+    margin-bottom: 1.5rem;
+  }
+  
+  button {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(255, 136, 0, 0.2);
+    border: 1px solid rgba(255, 136, 0, 0.3);
+    color: #ff8800;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: rgba(255, 136, 0, 0.3);
+      border-color: rgba(255, 136, 0, 0.5);
+    }
+    
+    &.btn-cancel {
+      color: #ff6666;
+      border-color: rgba(255, 68, 68, 0.3);
+      background: rgba(255, 68, 68, 0.05);
+      
+      &:hover {
+        background: rgba(255, 68, 68, 0.15);
+      }
+    }
+  }
+}
+
+.preference-item {
+  margin-bottom: 1rem;
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    
+    input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 136, 0, 0.3);
+      border-radius: 0.3rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:checked {
+        background: linear-gradient(135deg, #FF6B34, #ffa500);
+        border-color: #ff8800;
+      }
+    }
+    
+    span {
+      color: #fff;
+    }
+  }
+}
+
+.billing-item {
+  margin-bottom: 2rem;
+  
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  
+  p {
+    color: #b3b3b3;
+    margin-bottom: 0.75rem;
+  }
+  
+  button {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #ff4444, #ff8800);
+    border: none;
+    color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 136, 0, 0.3);
+    }
+  }
+}
+
+.billing-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 136, 0, 0.1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  
+  thead {
+    background: rgba(255, 136, 0, 0.08);
+    
+    tr {
+      border-bottom: 1px solid rgba(255, 136, 0, 0.1);
+    }
+    
+    th {
+      padding: 1rem;
+      text-align: left;
+      color: #ff8800;
+      font-weight: 700;
+    }
+  }
+  
+  tbody {
+    tr {
+      border-bottom: 1px solid rgba(255, 136, 0, 0.05);
+      
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    
+    td {
+      padding: 1rem;
+      color: #b3b3b3;
+    }
+  }
+  
+  .status-paid {
+    background: rgba(100, 200, 100, 0.15);
+    color: #44cc44;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.3rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  
+  .btn-invoice {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 136, 0, 0.2);
+    border: 1px solid rgba(255, 136, 0, 0.3);
+    color: #ff8800;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    
+    &:hover {
+      background: rgba(255, 136, 0, 0.3);
+    }
+  }
+}
+
+.btn-save,
+.btn-manage,
+.btn-update {
+  padding: 1rem;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  border: none;
+  color: white;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1rem;
+  width: 100%;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 136, 0, 0.4);
+  }
+}
+
+.account-footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 136, 0, 0.1);
+  
+  .btn-logout {
+    padding: 0.75rem 2rem;
+    background: rgba(255, 68, 68, 0.2);
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    color: #ff6666;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    
+    &:hover {
+      background: rgba(255, 68, 68, 0.3);
+      border-color: rgba(255, 68, 68, 0.5);
+    }
+  }
+}

@@ -88,7 +88,7 @@ export async function login(req, res) {
         username: user.username,
     }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
-    res.cookie("token", token)
+    res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'Strict' })
 
     res.status(200).json({
         message: "Login successful",
@@ -100,6 +100,15 @@ export async function login(req, res) {
         }
     })
 
+}
+
+export async function logout(req, res) {
+    res.clearCookie("token", { httpOnly: true, secure: true, sameSite: 'Strict' })
+
+    res.status(200).json({
+        message: "Logout successful",
+        success: true,
+    })
 }
 
 export async function getMe(req, res) {
@@ -121,7 +130,6 @@ export async function getMe(req, res) {
         user
     })
 }
-
 
 export async function verifyEmail(req, res) {
 

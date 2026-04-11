@@ -39,6 +39,13 @@ export default function Dashboard() {
                     <NavLink to="/app/songs" className={({ isActive }) => isActive ? 'active' : ''}>
                         library
                     </NavLink>
+                    <hr className="sidebar-divider" />
+                    <NavLink to="/app/account" className={({ isActive }) => isActive ? 'active' : ''}>
+                        💳 subscription
+                    </NavLink>
+                    <NavLink to="/pricing" className={({ isActive }) => isActive ? 'active' : ''}>
+                        📊 upgrade plan
+                    </NavLink>
                 </nav>
             </aside>
             <main className="dashboard__content">
