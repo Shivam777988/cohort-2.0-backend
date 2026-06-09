@@ -1,0 +1,30 @@
+import { createBrowserRouter } from "react-router";
+import Login from "../features/auth/pages/Login";
+import Register from "../features/auth/pages/Register";
+import Dashboard from "../features/chat/pages/Dashboard";
+import Protected from "../features/auth/components/Protected";
+import Landing from "./pages/Landing";
+import Microservices from "../features/microservices/Microservices";
+
+export const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Landing />
+    },
+    {
+        path: "/login",
+        element: <Login />
+    },
+    {
+        path: "/register",
+        element: <Register />
+    },
+    {  
+        path: "/dashboard",
+        element: <Protected><Dashboard /></Protected>
+    },
+    {
+        path: "/infrastructure",
+        element: <Protected><Microservices /></Protected>
+    }
+])
