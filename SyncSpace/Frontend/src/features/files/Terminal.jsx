@@ -1,89 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react'
+import axios from 'axios'
 import './Terminal.css'
+
+const apiBase = import.meta.env.VITE_API_URL || ''
 
 const Terminal = () => {
   const [command, setCommand] = useState('')
   const [output, setOutput] = useState([
     '$ Welcome to SyncSpace Terminal',
-    '$ Type "help" for available commands',
+    '$ Type a command and press Enter',
     ''
   ])
   const [history, setHistory] = useState([])
   const [historyIndex, setHistoryIndex] = useState(-1)
+  const [busy, setBusy] = useState(false)
   const terminalRef = useRef(null)
-
-  const mockCommands = {
-    help: [
-      'Available commands:',
-      '  ls           - List services',
-      '  status       - Show service status',
-      '  logs [service] - View service logs',
-      '  sync         - Trigger S3 sync',
-      '  deploy       - Deploy microservices',
-      '  health       - Health check',
-      '  clear        - Clear terminal',
-      ''
-    ],
-    ls: [
-      'gateway-service/        auth-engine/',
-      'ai-orchestrator/        data-sync-agent/',
-      'file-explorer-service/  notification-service/',
-      ''
-    ],
-    status: [
-      '📊 Service Status:',
-      '  ✅ Gateway Service        - RUNNING (99.99% uptime)',
-      '  ✅ Auth Engine            - RUNNING (99.98% uptime)',
-      '  ✅ AI Orchestrator        - RUNNING (99.92% uptime)',
-      '  ✅ Data Sync Agent        - RUNNING (99.97% uptime)',
-      '  ✅ File Explorer Service  - RUNNING (99.95% uptime)',
-      '  ✅ Notification Service   - RUNNING (99.94% uptime)',
-      ''
-    ],
-    'logs auth-engine': [
-      '[2026-06-05 10:30:45] Auth service initialized',
-      '[2026-06-05 10:30:50] JWT middleware activated',
-      '[2026-06-05 10:31:05] User session validated: rajpu@example.com',
-      '[2026-06-05 10:31:12] Login successful',
-      ''
-    ],
-    'logs ai-orchestrator': [
-      '[2026-06-05 10:30:55] AI Orchestrator started',
-      '[2026-06-05 10:31:10] Connected to language model',
-      '[2026-06-05 10:31:15] Agents initialized: 4 active',
-      '[2026-06-05 10:31:20] Processing user query from rajpu',
-      '[2026-06-05 10:31:25] Response generated successfully',
-      ''
-    ],
-    sync: [
-      '🔄 Starting S3 Sync...',
-      '[████████████░░░░░░░░░░░░░░░] 50%',
-      'Syncing 245 files to S3 bucket...',
-      '✅ Sync completed! 245 files transferred',
-      '📊 Stats: 2.3MB uploaded, 0 errors',
-      ''
-    ],
-    deploy: [
-      '🚀 Deploying Microservices...',
-      'Building Docker images...',
-      '[████████████████████████████] 100%',
-      'Pushing to container registry...',
-      'Deploying to Kubernetes cluster...',
-      '✅ All services deployed successfully!',
-      '🌐 Frontend: https://syncspace.app',
-      ''
-    ],
-    health: [
-      '❤️  Health Check Results:',
-      '  Database Connection: ✅ OK (45ms)',
-      '  Cache Layer: ✅ OK (12ms)',
-      '  AI Service: ✅ OK (234ms)',
-      '  S3 Bucket: ✅ OK (89ms)',
-      '  Overall System: ✅ HEALTHY',
-      ''
-    ],
-    clear: []
-  }
 
   useEffect(() => {
     if (terminalRef.current) {
@@ -91,24 +22,29 @@ const Terminal = () => {
     }
   }, [output])
 
+  const executeCommand = async (cmd) => {
+    if (!cmd.trim()) return
+    const normalized = cmd.trim()
+    setHistory((prev) => [...prev, normalized])
+    setHistoryIndex(-1)
+    setOutput((prev) => [...prev, `$ ${normalized}`])
+    setBusy(true)
+
+    try {
+      const response = await axios.post(`${apiBase}/api/dev/terminal/execute`, { command: normalized })
+      const newLines = response.data.output.split(/\r?\n/)
+      setOutput((prev) => [...prev, ...newLines, ''])
+    } catch (error) {
+      const message = error.response?.data?.error || error.message || 'Command failed'
+      setOutput((prev) => [...prev, message, ''])
+    } finally {
+      setBusy(false)
+    }
+  }
+
   const handleCommand = (e) => {
     if (e.key === 'Enter') {
-      const cmd = command.trim().toLowerCase()
-      setHistory([...history, cmd])
-      setHistoryIndex(-1)
-
-      let response = mockCommands[cmd] || ['$ Command not found: ' + command]
-
-      if (cmd === 'clear') {
-        setOutput(['$ Welcome to SyncSpace Terminal', '$ Type "help" for available commands', ''])
-      } else {
-        setOutput([
-          ...output,
-          `$ ${command}`,
-          ...(response || [`$ ${command}: command not found`]),
-        ])
-      }
-
+      executeCommand(command)
       setCommand('')
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
@@ -150,7 +86,8 @@ const Terminal = () => {
           value={command}
           onChange={(e) => setCommand(e.target.value)}
           onKeyDown={handleCommand}
-          placeholder="Enter command..."
+          placeholder={busy ? 'Running command...' : 'Enter command...'}
+          disabled={busy}
           autoFocus
           spellCheck="false"
         />

@@ -10,59 +10,90 @@ const statusStyles = {
 
 const AgentPanel = ({ compact = false }) => {
   return (
-    <div className="rounded-3xl border border-yellow-600/20 bg-slate-950/80 p-6 shadow-2xl shadow-black/20 backdrop-blur-xl">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div className="rounded-lg border border-yellow-600/20 bg-slate-950/80 p-3 shadow-lg backdrop-blur-xl">
+      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-sm uppercase tracking-[0.3em] text-yellow-400">Agent Network</p>
-          <h2 className="mt-2 text-2xl font-semibold text-white">Multi-Agent Cloud Control Center</h2>
-          <p className="mt-2 text-sm text-slate-400 max-w-2xl">
-            Visualize the multi-service orchestration layer and AWS-style deployment topology behind SyncSpace.
+          <p className="text-xs uppercase tracking-[0.2em] text-yellow-400">
+            Agent Network
+          </p>
+          <h2 className="mt-1 text-lg font-semibold text-white">
+            Multi-Agent Control Center
+          </h2>
+          <p className="mt-1 text-xs text-slate-400">
+            Service orchestration overview.
           </p>
         </div>
-        <div className="rounded-full border border-yellow-500/30 bg-black/50 px-4 py-2 text-sm text-yellow-200">
-          AWS Deployment Simulation
+
+        <div className="rounded-full border border-yellow-500/30 bg-black/50 px-3 py-1 text-xs text-yellow-200">
+          AWS Simulation
         </div>
       </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        {agentServices.map((agent) => (
-          <div key={agent.name} className="rounded-3xl border border-slate-700/80 bg-slate-900/80 p-4">
-            <div className="flex items-start justify-between gap-3">
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        {agentServices.slice(0, compact ? 4 : agentServices.length).map((agent) => (
+          <div
+            key={agent.name}
+            className="rounded-lg border border-slate-700/80 bg-slate-900/80 p-2"
+          >
+            <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-semibold text-white">{agent.name}</p>
-                <p className="text-sm text-slate-400">{agent.role}</p>
+                <p className="text-sm font-medium text-white">
+                  {agent.name}
+                </p>
+                <p className="text-xs text-slate-400">
+                  {agent.role}
+                </p>
               </div>
-              <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[agent.status] ?? "bg-slate-700 text-slate-200"}`}>
+
+              <span
+                className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                  statusStyles[agent.status] ??
+                  "bg-slate-700 text-slate-200"
+                }`}
+              >
                 {agent.status}
               </span>
             </div>
-            <p className="mt-3 text-sm leading-6 text-slate-300">{agent.description}</p>
-            {agent.uptime && <p className="mt-3 text-xs uppercase tracking-[0.18em] text-slate-500">Uptime {agent.uptime}</p>}
           </div>
         ))}
       </div>
 
       {!compact && (
-        <div className="mt-6 rounded-3xl border border-yellow-600/20 bg-black/30 p-5">
-          <h3 className="text-lg font-semibold text-white">Agent Pipeline</h3>
-          <div className="mt-4 space-y-3">
-            {agentPipeline.map((step) => (
-              <div key={step.title} className="flex items-start gap-4 rounded-3xl border border-slate-700/80 bg-slate-950/60 p-4">
-                <div className={`mt-1 h-3 w-3 rounded-full ${statusStyles[step.status] ?? "bg-slate-500"}`} />
-                <div className="min-w-0">
-                  <p className="font-medium text-white">{step.title}</p>
-                  <p className="text-sm text-slate-400">{step.detail}</p>
+        <div className="mt-3 rounded-lg border border-yellow-600/20 bg-black/30 p-3">
+          <h3 className="text-sm font-semibold text-white">
+            Pipeline
+          </h3>
+
+          <div className="mt-2 space-y-2">
+            {agentPipeline.slice(0, 3).map((step) => (
+              <div
+                key={step.title}
+                className="flex items-center gap-3 rounded-lg border border-slate-700/80 bg-slate-950/60 p-2"
+              >
+                <div
+                  className={`h-2 w-2 rounded-full ${
+                    step.status === "Healthy"
+                      ? "bg-emerald-400"
+                      : step.status === "Warning"
+                      ? "bg-amber-400"
+                      : "bg-rose-400"
+                  }`}
+                />
+
+                <div>
+                  <p className="text-xs font-medium text-white">
+                    {step.title}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
+
           <Link
             to="/infrastructure"
-            className="mt-4 inline-flex items-center justify-center w-full gap-2 rounded-lg bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border border-yellow-500/30 px-4 py-3 text-sm font-semibold text-yellow-300 transition-all hover:border-yellow-500/50 hover:bg-gradient-to-r hover:from-yellow-500/30 hover:to-yellow-600/30"
+            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-3 py-2 text-xs font-medium text-yellow-300 hover:bg-yellow-500/20"
           >
-            <span>🚀</span>
-            <span>View Full Infrastructure</span>
-            <span>→</span>
+            View Infrastructure →
           </Link>
         </div>
       )}
